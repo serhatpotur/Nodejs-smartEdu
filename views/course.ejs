@@ -37,7 +37,7 @@
 								<span class="month">Nov</span>
 							</div>
 							<div class="meta-info-blog">
-								<span><i class="fa fa-calendar"></i> <a href="#">May 11, 2015</a> </span>
+								<span><i class="fa fa-calendar"></i><%= course.createdDate %> </span>
 							</div>
 							<div class="blog-title">
 								<h2><a href="#" title=""><%= course.name %></a></h2>
@@ -52,10 +52,9 @@
 					
 					<div class="blog-author">
 						<div class="author-bio">
-							<h3 class="author_name"><a href="#">Tom Jobs</a></h3>
-							<h5>CEO at <a href="#">SmartEDU</a></h5>
+							<h3 class="author_name"><a href="#"><%= course.user.name %></a></h3>
 							<p class="author_det">
-								Lorem ipsum dolor sit amet, consectetur adip, sed do eiusmod tempor incididunt  ut aut reiciendise voluptat maiores alias consequaturs aut perferendis doloribus omnis saperet docendi nec, eos ea alii molestiae aliquand.
+								User Description
 							</p>
 						</div>
 						<div class="author-desc">

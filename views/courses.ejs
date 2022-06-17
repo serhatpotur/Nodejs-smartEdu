@@ -45,7 +45,9 @@
 						</div>
 						<div class="course-meta-bot">
 							<ul>
-								<li><i class="fa fa-user" aria-hidden="true"></i>Teacher Name</li>
+								
+								<li><i class="fa fa-user" aria-hidden="true"></i> <a href="/courses?users=<%=courses[i].user.name %>"> <%= courses[i].user.name %></a></li>
+			
 							</ul>
 						</div>
 					</div>
@@ -75,6 +77,16 @@
 							<% for(let i=0;i<categories.length;i++) { %>
 								<li><a href="/courses?categories=<%=categories[i].slug %>"><%= categories[i].name %></a></li>
 							<% } %>
+						</ul>
+					</div>
+					<div class="widget-categories">
+						<h3 class="widget-title">Author</h3>
+						<ul>
+							
+								<% for(let i=0;i<users.length;i++) { %>
+									<li><a href="/courses?users=<%=users[i]._id %>"><%= users[i].name %></a></li>
+								<% } %>
+						
 						</ul>
 					</div>
 				</div>
