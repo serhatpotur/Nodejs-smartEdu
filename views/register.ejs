@@ -23,6 +23,20 @@
 
             <div class="row">
                 <div class="col-xl-12 col-md-12 col-sm-12">
+                    <% if(flashMessages) { %> 
+                        <% if(flashMessages.success) { %> 
+                            <div class="alert alert-success">
+                                <%= flashMessages.success %>
+                            </div>
+                        <% } %>
+                        <% if(flashMessages.error) { %>
+                            <% for (let i=0;i< flashMessages.error.length;i++) { %>
+                            <div class="alert alert-danger">
+                                <%= flashMessages.error[i] %>
+                            </div>
+                            <% } %>
+                        <% } %>
+                    <% } %>            
                     <div class="contact_form">
                         <div id="message"></div>
                         <form class="" name="contactform" action="users/signup" method="post">
