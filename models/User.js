@@ -20,7 +20,7 @@ const userSchema = new Schema({
   role: {
     type: String,
     enum: ["Student", "Teacher", "Admin"], //kullanıcı yetkileri
-    default: "student",
+    default: "Student",
   },
   courses: [
     {

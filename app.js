@@ -4,6 +4,7 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 const methodOverride = require("method-override");
+const fileUpload = require('express-fileupload');
 const pageRoute = require("./routes/pageRoute");
 const courseRoute = require("./routes/courseRoute");
 const categoryRoute = require("./routes/categoryRoute");
@@ -35,14 +36,14 @@ global.userIn = null;
 app.use(express.static("public"));
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-app.use(
-  session({
+app.use(session({
     secret: "keyboard_cat",
     resave: false,
     saveUninitialized: true,
     store: MongoStore.create({ mongoUrl: "mongodb://127.0.0.1/smartedu-db" }), //uygulamayı kapattığımızda bile session kayıtlı kalır
-  })
-);
+  }));
+  
+app.use(fileUpload()); // file işlemlerini yapmamızı sağlar
 app.use(flash());
 app.use((req, res, next) => {
   res.locals.flashMessages = req.flash();

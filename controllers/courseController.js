@@ -1,19 +1,31 @@
 const Course = require("../models/Course");
 const Category = require("../models/Category");
 const User = require("../models/User");
+const fs = require("fs");
 
 exports.createCourse = async (req, res) => {
   try {
-    //const course = await Course.create(req.body);
-    const course = await Course.create({
-      name: req.body.name,
-      description: req.body.description,
-      category: req.body.category,
-      user: req.session.userId,
-    });
+    const uploadDir = "public/uploads";
+    if (!fs.existsSync(uploadDir)) {
+      //uploads klasörü yoksa oluştur
+      fs.mkdirSync(uploadDir);
+    }
 
-    req.flash("success", `${course.name} has been created successfully`);
-    res.status(201).redirect("/courses");
+    let uploadedImage = req.files.image;
+    let uploadPath = __dirname + "/../public/uploads/" + uploadedImage.name;
+
+
+    uploadedImage.mv(uploadPath, async () => {
+      const course = await Course.create({
+        name: req.body.name,
+        description: req.body.description,
+        image: "/uploads/" + uploadedImage.name,
+        category: req.body.category,
+        user: req.session.userId,
+      });
+      req.flash("success", `${course.name} has been created successfully`);
+      res.status(201).redirect("/courses");
+    });
   } catch (error) {
     res.status(400).redirect("/courses");
     req.flash("error", `${course.name} has been creation failed`);
@@ -92,7 +104,6 @@ exports.enrollCourse = async (req, res) => {
     await user.courses.push({ _id: req.body.course_id });
     // const course = Course.findById({ _id: req.body._id });
 
-    // console.log(course.name);
     await user.save();
     res.redirect("/users/dashboard");
   } catch (error) {
@@ -138,17 +149,25 @@ exports.deleteCourse = async (req, res) => {
 
 exports.updateCourse = async (req, res) => {
   try {
-    const course = await Course.findOne({ slug: req.params.slug }).populate('category');
-    course.name = req.body.name;
-    course.description = req.body.description;
-    course.category = req.body.category;
-    course.save();
-    req.flash("success", `" ${course.name} " has been updated successfully`);
-    res.status(200).redirect("/users/dashboard");
-  } catch (error) {
-    res.status(400).json({
-      status: "fail",
-      error,
+    const course = await Course.findOne({ slug: req.params.slug }).populate(
+      "category"
+    );
+    let uploadedImage = req.files.image;
+
+    let uploadPath = __dirname + "/../public/uploads/" + uploadedImage.name;
+    uploadedImage.mv(uploadPath, async () => {
+      course.name = req.body.name;
+      course.description = req.body.description;
+
+      course.image = "/uploads/" + uploadedImage.name;
+
+      course.category = req.body.category;
+      course.save();
+      req.flash("success", `" ${course.name} " has been updated successfully`);
+      res.status(200).redirect("/users/dashboard");
     });
+  } catch (error) {
+    req.flash("error", `" ${course.name} " has been updated failed`);
+    res.status(200).redirect("/users/dashboard");
   }
 };

@@ -302,7 +302,7 @@
 					<div class="col-lg-6 col-md-6 col-12">
 						<div class="course-item mb-5">
 							<div class="image-blog">
-								<img src="/images/blog_1.jpg" alt="" class="img-fluid ">
+								<img src="<%= courses[i].image %>" alt="" class="img-fluid ">
 							</div>
 							<div class="course-br">
 								<div class="course-title">
@@ -328,7 +328,7 @@
 								<div class="modal-body customer-box">
 									<!-- Tab Panes -->
 									<div class="tab-pane active" id="Login">
-										<form action="/courses/<%= courses[i].slug %>?_method=PUT " method="post" class="form-horizontal">
+										<form action="/courses/<%= courses[i].slug %>?_method=PUT " enctype="multipart/form-data" method="post" class="form-horizontal">
 											<div class="form-group">
 												<div class="col-sm-12">
 													<input type="hidden" name="role" class="form-control" value="<%=user.role %>" >
@@ -343,13 +343,19 @@
 												<div class="col-sm-12">
 													<textarea name="description" rows="8" class="form-control" placeholder="Course Description" required ><%= courses[i].description %></textarea>
 												</div>
-											</div><div class="form-group">
+											</div>
+											<div class="form-group">
 												<div class="col-sm-12">
 													<select class="form-control" name="category">
 														<% for (let i=0; i< categories.length; i++) { %>
 														<option value="<%= categories[i]._id %>"><%= categories[i].name %></option>
 														<% } %>	
 													</select>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="col-sm-12">
+													<input type="file" name="image" value="<%= courses[i].image %>" class="form-control-file" >
 												</div>
 											</div>
 											<div class="row">
@@ -380,7 +386,7 @@
 			<div class="modal-body customer-box">
 				<!-- Tab Panes -->
 				<div class="tab-pane active" id="Login">
-					<form action="/courses " method="post" class="form-horizontal">
+					<form action="/courses" enctype="multipart/form-data" method="post" class="form-horizontal">
 						<div class="form-group">
 							<div class="col-sm-12">
 								<input type="hidden" name="role" class="form-control" value="<%=user.role %>" >
@@ -395,13 +401,20 @@
 							<div class="col-sm-12">
 								<textarea name="description" rows="8" class="form-control" placeholder="Course Description" required></textarea>
 							</div>
-						</div><div class="form-group">
+						</div>
+						
+						<div class="form-group">
 							<div class="col-sm-12">
 								<select name="category" class="form-control">
 									<% for(let i=0;i< categories.length;i++){ %>
 									<option value="<%= categories[i]._id%>"><%=categories[i].name %></option>
 									<% } %>
 								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-12">
+								<input type="file" name="image" class="form-control-file" >
 							</div>
 						</div>
 						<div class="row">
